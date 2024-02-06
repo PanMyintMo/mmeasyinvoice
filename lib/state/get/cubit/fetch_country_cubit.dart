@@ -16,8 +16,6 @@ import 'package:mmeasyInvoice/data/response/townsip_by_cityId_response.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_country_state.dart';
 
 
-import 'package:mmeasyInvoice/util/app_logger.dart';
-
 
 class FetchingCountryCubit extends Cubit<FetchingCountryState> {
 
@@ -140,10 +138,10 @@ class FetchingCountryCubit extends Cubit<FetchingCountryState> {
 
       if (response is Map<String, dynamic> && response.containsKey('data')) {
 
-        final List<dynamic> responseData = response['data']['data'];
+        final List<dynamic> responseData = response['data'];
 
 
-        logger.e('Townships are $responseData');
+       // logger.e('Townships are $responseData');
 
         final List<TownshipByCityIdData> townshipList = responseData
 
@@ -165,7 +163,7 @@ class FetchingCountryCubit extends Cubit<FetchingCountryState> {
 
     } catch (e) {
 
-      logger.e("Error is $e");
+    //  logger.e("Error is $e");
 
       emit(FetchingCountryFailed(error: e.toString()));
 
