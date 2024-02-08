@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:mmeasyInvoice/data/data_request_model/ward_by_townshipId.dart';
 
 
 import 'package:mmeasyInvoice/data/response/locationResponse/city_response.dart';
 
 
 import 'package:mmeasyInvoice/data/response/locationResponse/country_response.dart';
+import 'package:mmeasyInvoice/data/response/street_response.dart';
 
 
 import 'package:mmeasyInvoice/data/response/townsip_by_cityId_response.dart';
@@ -84,6 +86,40 @@ class FetchTownshipByCityIdSuccess extends FetchingCountryState {
   @override
 
   List<Object?> get props => [_townshipIds];
+
+}
+
+
+class FetchWardpByTownshipIdSuccess extends FetchingCountryState {
+
+  final List<WardByTownshipData> _wardIds;
+
+
+  const FetchWardpByTownshipIdSuccess(this._wardIds);
+
+  List<WardByTownshipData> get wardsIds => _wardIds;
+
+
+  @override
+
+  List<Object?> get props => [_wardIds];
+
+}
+
+
+class FetchStreetByWardIdSuccess extends FetchingCountryState {
+
+  final List<Street> _street;
+
+
+  const FetchStreetByWardIdSuccess(this._street);
+
+  List<Street> get streetId => _street;
+
+
+  @override
+
+  List<Object?> get props => [_street];
 
 }
 

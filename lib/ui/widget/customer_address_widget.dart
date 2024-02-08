@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mmeasyInvoice/data/data_request_model/ward_by_townshipId.dart';
 import 'package:mmeasyInvoice/data/response/locationResponse/city_response.dart';
+import 'package:mmeasyInvoice/data/response/street_response.dart';
 import 'package:mmeasyInvoice/data/response/townsip_by_cityId_response.dart';
-import 'package:mmeasyInvoice/util/app_logger.dart';
+import 'package:mmeasyInvoice/ui/widget/dropdown_search.dart';
 import 'package:mmeasyInvoice/util/common/dropdown_widget.dart';
 import 'package:mmeasyInvoice/util/common/search_class.dart';
 import 'package:provider/provider.dart';
@@ -15,10 +17,14 @@ class CustomerAddressWidget extends StatefulWidget {
 }
 
 class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
-  String? select_city;
-  String? selectTownship;
+  String? selectCity;
+  String selectStreet = 'Select Street';
+  String selectTownship = 'Select Township';
+  String selectWard = 'Select Ward';
   List<City>? cities;
+  List<Street>? streets;
   List<TownshipByCityIdData>? townshipId;
+  List<WardByTownshipData>? wardId;
 
   @override
   void initState() {
@@ -43,10 +49,29 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
   Future<void> townshipByCityId(int id) async {
     final response =
         await context.read<FetchingCountryCubit>().fetchTownshipByCityId(id);
-    logger.e('Township By Cid are $response');
+
     setState(() {
       townshipId = response;
-      selectTownship = null;
+      selectTownship = '';
+    });
+  }
+
+  Future<void> fetchStreetByWardId(int id) async {
+    final response =
+        await context.read<FetchingCountryCubit>().fetchStreetByWardId(id);
+
+    setState(() {
+      streets = response;
+    });
+  }
+
+  Future<void> wardByTownshipId(int id) async {
+    final response =
+        await context.read<FetchingCountryCubit>().fetchWardByTownshipId(id);
+
+    setState(() {
+      wardId = response;
+      selectWard = '';
     });
   }
 
@@ -62,17 +87,15 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
             const SearchBarClass(),
             const Text('City'),
             buildDropdown(
-              value: select_city,
+              value: selectCity,
               items: cities?.map((city) {
                 return DropdownMenuItem(
                     value: city.id.toString(), child: Text(city.name));
               }).toList(),
-              onChanged: (value) async {
+              onChanged: (value) {
                 setState(() {
-                  select_city = value;
-                  townshipByCityId(int.parse(select_city!));
-
-                 
+                  selectCity = value;
+                  townshipByCityId(int.parse(selectCity!));
                 });
               },
               hint: "Select City Name",
@@ -81,24 +104,65 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
               height: 16,
             ),
             const Text('Township'),
-            buildDropdown(
+            buildDropDownSearch(
               value: selectTownship,
-              items: townshipId?.map((township) {
-                return DropdownMenuItem(
-                    value: township.id.toString(), child: Text(township.name));
-              }).toList(),
+              items: townshipId
+                      ?.map((township) => township.name.toString())
+                      .toList() ??
+                  [],
               onChanged: (value) async {
                 setState(() {
-                  select_city = value;
+                  selectTownship = value;
+                  final selectedTownship = townshipId?.firstWhere(
+                    (township) => township.name.toString() == value,
+                  );
+                  if (selectedTownship != null) {
+                    int townshipId = selectedTownship.id;
+                    wardByTownshipId(townshipId);
+                  }
                 });
               },
-              hint: "Select City Name",
             ),
             const SizedBox(
               height: 16,
             ),
-            Text('Ward'),
-            Text('Street'),
+            const Text('Ward'),
+            const SizedBox(
+              height: 16,
+            ),
+            buildDropDownSearch(
+              value: selectWard,
+              items:
+                  wardId?.map((ward) => ward.ward_name.toString()).toList() ??
+                      [],
+              onChanged: (value) async {
+                setState(() {
+                  selectWard = value;
+
+                  final ward = wardId?.firstWhere(
+                    (ward) => ward.ward_name.toString() == value,
+                  );
+                  int wdId = ward!.id;
+                  fetchStreetByWardId(wdId);
+                });
+              },
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            const Text('Street'),
+            buildDropDownSearch(
+              value: selectStreet,
+              items: streets
+                      ?.map((street) => street.street_name.toString())
+                      .toList() ??
+                  [],
+              onChanged: (value) async {
+                setState(() {
+                  selectStreet = value;
+                });
+              },
+            ),
           ],
         ),
       ),

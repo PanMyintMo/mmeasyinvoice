@@ -31,4 +31,6 @@ class AppUrl {
   static var productByCategoryId = '${baseUrl}productByCategoryId';
   static var addOrder = '${baseUrl}add-order';
   static var townshipByCityId = '${baseUrl}townships-by-cityid';
+  static var wardByTownshipId = '${baseUrl}wards-by-townshipid';
+  static var streetByWardId = '${baseUrl}streets-by-wardid';
 }

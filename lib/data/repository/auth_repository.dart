@@ -253,7 +253,7 @@ class AuthRepository {
 
   //fetch all township by city Id
   Future<dynamic> fetchTownshipByCityId(int id) async {
-    logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
+   // logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
     try {
       dynamic response =
           await apiService.getGetApiResponse('${AppUrl.townshipByCityId}/$id');
@@ -264,6 +264,32 @@ class AuthRepository {
     }
   }
 
+  //fetch all ward by township Id
+  Future<dynamic> fetchWardByTownshipId(int id) async {
+   // logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
+    try {
+      dynamic response =
+          await apiService.getGetApiResponse('${AppUrl.wardByTownshipId}/$id');
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
+  //fetch all street by ward Id
+  Future<dynamic> fetchStreetByWardId(int id) async {
+   // logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
+    try {
+      dynamic response =
+          await apiService.getGetApiResponse('${AppUrl.streetByWardId}/$id');
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
   //fetch all wards
   Future<dynamic> fetchWard(int page) async {
     try {
