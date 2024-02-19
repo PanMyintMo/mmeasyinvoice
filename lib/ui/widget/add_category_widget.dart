@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mmeasyInvoice/data/data_request_model/add_category_request_model.dart';
-import 'package:mmeasyInvoice/data/response/category_response/add_category_response.dart';
-import 'package:mmeasyInvoice/state/post/cubit/add_category_cubit.dart';
+import 'package:mmeasyInvoice/state/get/cubit/fetch_category_cubit.dart';
 import 'package:mmeasyInvoice/ui/widget/add_user_widget.dart';
 import 'package:mmeasyInvoice/util/common/validation/form_validator.dart';
+import 'package:provider/provider.dart';
 
 class AddCategoryWidget extends StatefulWidget {
-  final AddCategoryResponse? categoryResponse;
-  const AddCategoryWidget({super.key, this.categoryResponse});
+  const AddCategoryWidget({
+    super.key,
+  });
 
   @override
   State<AddCategoryWidget> createState() => _AddCategoryWidgetState();
@@ -24,7 +24,6 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
     name.addListener(_updateSlugField);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,9 +38,9 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
           height: 16,
         ),
         ElevatedButton(
-            onPressed: () async{
-        await context
-                  .read<AddCategoryCubit>()
+            onPressed: () async {
+              await context
+                  .read<FetchingCategoryCubit>()
                   .addCategory(AddRequestModel(name.text, slug.text));
             },
             child: const Text(
@@ -50,7 +49,8 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
       ],
     );
   }
-   @override
+
+  @override
   void dispose() {
     name.dispose();
     slug.dispose();

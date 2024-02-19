@@ -1,14 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mmeasyInvoice/app_router.dart';
+import 'package:mmeasyInvoice/auth/home_module.dart';
 import 'package:mmeasyInvoice/ui/widget/all_delivery_widget.dart';
 import 'package:mmeasyInvoice/ui/widget/dotted_image_widget.dart';
 import 'package:mmeasyInvoice/state/get/cubit/delivery_cubit.dart';
 import 'package:mmeasyInvoice/util/common/text_form_field.dart';
 import 'package:mmeasyInvoice/util/common/validation/form_validator.dart';
 import 'package:mmeasyInvoice/data/data_request_model/add_delivery_company_request_model.dart';
-
-
+import 'package:mmeasyInvoice/util/home_route.dart';
 
 class AddDeliveryWidget extends StatefulWidget {
   const AddDeliveryWidget({super.key});
@@ -32,14 +33,15 @@ class _AddDeliveryWidgetState extends State<AddDeliveryWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              buildDynamicButton('Add delivery info', () => null),
+              buildDynamicButton('All Delivery', () {
+                AppRouter.changeRoute<HomeModule>(HomeRoute.viewDelivery);
+              }),
               buildFormField(
-                label: 'Delivery Name',
-                controller: name,
-                validator: (value) => validateField(value ),
-                keyboardType: TextInputType.name,
-                readOnly: false
-              ),
+                  label: 'Delivery Name',
+                  controller: name,
+                  validator: (value) => validateField(value),
+                  keyboardType: TextInputType.name,
+                  readOnly: false),
               const SizedBox(height: 16),
               buildImageUploadSection(),
               const SizedBox(height: 16),

@@ -13,9 +13,18 @@ import 'package:mmeasyInvoice/ui/screen/all_street_screen.dart';
 import 'package:mmeasyInvoice/ui/screen/all_township_screen.dart';
 import 'package:mmeasyInvoice/ui/screen/all_ward_screen.dart';
 import 'package:mmeasyInvoice/ui/screen/city_screen.dart';
+import 'package:mmeasyInvoice/ui/screen/company_profile_screen.dart';
 import 'package:mmeasyInvoice/ui/screen/country_screen.dart';
 import 'package:mmeasyInvoice/ui/screen/customer_address_screen.dart';
 import 'package:mmeasyInvoice/ui/screen/customer_profile_screen.dart';
+import 'package:mmeasyInvoice/ui/screen/deliver_warehouse_request_screen.dart';
+import 'package:mmeasyInvoice/ui/screen/barcode_screen.dart';
+import 'package:mmeasyInvoice/ui/screen/invoice_screen.dart';
+import 'package:mmeasyInvoice/ui/screen/order_by_date.dart';
+import 'package:mmeasyInvoice/ui/screen/pdf_screen.dart';
+import 'package:mmeasyInvoice/ui/screen/request_shop_product_screen.dart';
+import 'package:mmeasyInvoice/ui/screen/shopkeeper_screen.dart';
+import 'package:mmeasyInvoice/ui/screen/warehouse_screen.dart';
 import '../ui/screen/home_screen.dart';
 import 'package:mmeasyInvoice/util/home_route.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -72,10 +81,27 @@ class HomeModule extends Module {
             child: ((context, args) => const AddProductScreen())),
         ChildRoute(HomeRoute.customerProfile,
             child: ((context, args) => const CustomerProfileScreen())),
-      
         ChildRoute(HomeRoute.addOrder,
             child: ((context, args) => const AddOrderScreen())),
-              ChildRoute(HomeRoute.customerAddress,
+        ChildRoute(HomeRoute.customerAddress,
             child: ((context, args) => const CustomerAddressScreen())),
+        ChildRoute(HomeRoute.shopKeeper,
+            child: ((context, args) => const ShopKeeperScreen())),
+        ChildRoute(HomeRoute.requestShopPrduct,
+            child: ((context, args) => const RequestShopProduct())),
+        ChildRoute(HomeRoute.deliverWarehouseRequest,
+            child: ((context, args) => const DeliverWarehouseRequestScreen())),
+        ChildRoute(HomeRoute.companyProfile,
+            child: ((context, args) => const CompanyProfileScreen())),
+        ChildRoute(HomeRoute.productInvoice,
+            child: ((context, args) => const BarcodeScreen())),
+        ChildRoute(HomeRoute.fetchWarehouse,
+            child: ((context, args) => const WarehouseScreen())),
+        ChildRoute(HomeRoute.allOrder,
+            child: ((context, args) => const OrderByDateScreen())),
+        ChildRoute(HomeRoute.pdfPage,
+            child: ((context, args) => const PdfScreen())),
+        ChildRoute(HomeRoute.productInvoice,
+            child: ((context, args) => const InvoiceScreen())),
       ];
 }

@@ -9,19 +9,16 @@ import 'package:mmeasyInvoice/state/get/cubit/fetch_country_cubit.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_delivery_cubit.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_size_cubit.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_street_cubit.dart';
-import 'package:mmeasyInvoice/state/get/cubit/fetch_township_cubit.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_user_role_cubit.dart';
-import 'package:mmeasyInvoice/state/get/cubit/fetch_ward_cubit.dart';
 import 'package:mmeasyInvoice/state/get/cubit/warehouse_cubit.dart';
-import 'package:mmeasyInvoice/state/post/cubit/add_category_cubit.dart';
 import 'package:mmeasyInvoice/state/post/cubit/add_city_cubit.dart';
 import 'package:mmeasyInvoice/state/post/cubit/add_country_cubit.dart';
 import 'package:mmeasyInvoice/state/post/cubit/add_faulty_cubit.dart';
-import 'package:mmeasyInvoice/state/post/cubit/add_size_cubit.dart';
 import 'package:mmeasyInvoice/state/post/cubit/add_user_cubit.dart';
 import 'package:mmeasyInvoice/state/post/cubit/auth_cubit.dart';
 import 'package:mmeasyInvoice/data/repository/auth_repository.dart';
 import 'package:mmeasyInvoice/state/get/cubit/order_filter_cubit.dart';
+import 'package:mmeasyInvoice/state/post/cubit/invoice_cubit.dart';
 
 var getIt = GetIt.instance;
 
@@ -57,8 +54,8 @@ void setupLocator() {
   getIt.registerSingleton(() => addUserCubit);
 
   //fetch all category
-  FetchingCategoryrCubit fetchingCategoryrCubit =
-      FetchingCategoryrCubit(getIt.get<AuthRepository>());
+  FetchingCategoryCubit fetchingCategoryrCubit =
+      FetchingCategoryCubit(getIt.get<AuthRepository>());
   getIt.registerSingleton(() => fetchingCategoryrCubit);
   //fetch all faulty items
   FetchingFaultyCubit fetchingFaultyCubit =
@@ -89,29 +86,14 @@ void setupLocator() {
   FetchingCountryCubit fetchingCountryCubit =
       FetchingCountryCubit(getIt.get<AuthRepository>());
   getIt.registerSingleton(() => fetchingCountryCubit);
+
   
-  //fetch all township
-  FetchingTownshipCubit fetchingTownshipCubit =
-      FetchingTownshipCubit(getIt.get<AuthRepository>());
-  getIt.registerSingleton(() => fetchingTownshipCubit);
-
-  //fetch all ward
-  FetchingWardCubit fetchingWardCubit =
-      FetchingWardCubit(getIt.get<AuthRepository>());
-  getIt.registerSingleton(() => fetchingWardCubit);
-
   //fetch all street
   FetchingStreetCubit fetchingStreetCubit =
       FetchingStreetCubit(getIt.get<AuthRepository>());
   getIt.registerSingleton(() => fetchingStreetCubit);
 
-  //add category
-  AddCategoryCubit addCateCubit = AddCategoryCubit(getIt.get<AuthRepository>());
-  getIt.registerSingleton(() => addCateCubit);
-
-  //add size
-  AddSizeCubit addSizeCubit = AddSizeCubit(getIt.get<AuthRepository>());
-  getIt.registerSingleton(() => addSizeCubit);
+  
   //add faulty item
   AddFaultyCubit addFaultyCubit = AddFaultyCubit(getIt.get<AuthRepository>());
   getIt.registerSingleton(() => addFaultyCubit);
@@ -124,4 +106,8 @@ void setupLocator() {
   //add city
   AddCityCubit addCityCubit = AddCityCubit(getIt.get<AuthRepository>());
   getIt.registerSingleton(() => addCityCubit);
+
+    // invoice barcode scan
+  InvoiceCubit invoiceCubit = InvoiceCubit(getIt.get<AuthRepository>());
+  getIt.registerSingleton(() => invoiceCubit);
 }

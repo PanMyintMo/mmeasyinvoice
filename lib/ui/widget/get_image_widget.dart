@@ -1,25 +1,34 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class GetImageWidget extends StatefulWidget {
   final File? image;
-  final Function(File?)
-      onImageChanged; 
-  const GetImageWidget(
-      {super.key, required this.image, required this.onImageChanged});
+  final String? imageUrl;
+  final Function(File?) onImageChanged;
+
+  const GetImageWidget({
+    super.key,
+    required this.onImageChanged,
+    this.image,
+    this.imageUrl,
+  });
 
   @override
-  State<GetImageWidget> createState() => _GetImageWidgetState();
+  _GetImageWidgetState createState() => _GetImageWidgetState();
 }
 
 class _GetImageWidgetState extends State<GetImageWidget> {
+  File? _imageFile;
+
   Future<void> _chooseProfilePicture() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       final file = File(pickedFile.path);
+      setState(() {
+        _imageFile = file;
+      });
       widget.onImageChanged(file);
     }
   }
@@ -43,18 +52,7 @@ class _GetImageWidgetState extends State<GetImageWidget> {
               ),
             ],
           ),
-          child: widget.image != null
-              ? Image.file(
-                  widget.image!,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
-                )
-              : Icon(
-                  Icons.person,
-                  color: Colors.grey.shade300,
-                  size: 80,
-                ),
+          child: _buildImageWidget(),
         ),
         Positioned(
           bottom: 0,
@@ -68,7 +66,7 @@ class _GetImageWidgetState extends State<GetImageWidget> {
             ),
             child: RawMaterialButton(
               onPressed: () async {
-                await _chooseProfilePicture(); 
+                await _chooseProfilePicture();
               },
               elevation: 4.0,
               fillColor: const Color(0xFFF5F6F9),
@@ -82,5 +80,29 @@ class _GetImageWidgetState extends State<GetImageWidget> {
         ),
       ],
     );
+  }
+
+  Widget _buildImageWidget() {
+    if (widget.image != null) {
+      return Image.file(
+        widget.image!,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      );
+    } else if (widget.imageUrl != null && widget.imageUrl!.isNotEmpty) {
+      return Image.network(
+        widget.imageUrl!,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      );
+    } else {
+      return Icon(
+        Icons.person,
+        color: Colors.grey.shade300,
+        size: 80,
+      );
+    }
   }
 }

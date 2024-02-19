@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mmeasyInvoice/app_router.dart';
+import 'package:mmeasyInvoice/auth/home_module.dart';
 import 'package:mmeasyInvoice/util/common/data_source.dart';
 import 'package:mmeasyInvoice/util/common/dynamic_action_button.dart';
 import 'package:mmeasyInvoice/util/common/general_pagination.dart';
@@ -7,6 +9,7 @@ import 'package:mmeasyInvoice/data/response/all_delivery_response.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_delivery_cubit.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_delivery_state.dart';
 import 'package:mmeasyInvoice/util/common/build_data_column_widget.dart';
+import 'package:mmeasyInvoice/util/home_route.dart';
 
 class AllDeliveryWidget extends StatefulWidget {
   const AllDeliveryWidget({super.key});
@@ -24,7 +27,9 @@ class _AllDeliveryWidgetState extends State<AllDeliveryWidget> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          buildDynamicButton('Add New Delivery', () {}),
+          buildDynamicButton('Add New Delivery', () {
+            AppRouter.changeRoute<HomeModule>(HomeRoute.addDelivery);
+          }),
           BlocBuilder<FetchingDeliveryCubit, FetchingDeliveryState>(
             builder: (context, state) {
               if (state is FetchDeliveryLoading) {

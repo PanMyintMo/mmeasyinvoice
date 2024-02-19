@@ -8,14 +8,9 @@ import 'package:mmeasyInvoice/state/get/cubit/fetch_size_cubit.dart';
 import 'package:mmeasyInvoice/ui/widget/add_product_widget.dart';
 import 'package:mmeasyInvoice/util/common/toast_message.dart';
 
-class AddProductScreen extends StatefulWidget {
+class AddProductScreen extends StatelessWidget {
   const AddProductScreen({super.key});
 
-  @override
-  State<AddProductScreen> createState() => _AddProductScreenState();
-}
-
-class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +24,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         providers: [
           BlocProvider(create: (context) => FetchingProductCubit(getIt.call())),
           BlocProvider(
-              create: (context) => FetchingCategoryrCubit(getIt.call())),
+              create: (context) => FetchingCategoryCubit(getIt.call())),
           BlocProvider(create: (context) => FetchingSizeCubit(getIt.call())),
         ],
         child: BlocBuilder<FetchingProductCubit, FetchingProductState>(

@@ -5,6 +5,7 @@ class SharePreferenceService {
   static const String tokenKey = 'tokenKey';
   static const String userNameKey = 'userName';
   static const String userMailKey = 'userMail';
+  static const String urlKey = 'urlKey';
 
   static Future<void> saveUserRole(String userRole) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
@@ -25,6 +26,17 @@ class SharePreferenceService {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     final userName = pref.getString(userNameKey);
     return userName;
+  }
+
+  Future<void> saveUserUrl(String url) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString(urlKey, url);
+  }
+
+  Future<String?> getUserUrl() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    final url = pref.getString(urlKey);
+    return url;
   }
 
   Future<void> saveUserEmail(String email) async {
@@ -64,7 +76,7 @@ class SharePreferenceService {
     prefs.remove(userRoleKey);
   }
 
-   Future<void> removeToken() async {
+  Future<void> removeToken() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     pref.remove(tokenKey);
   }

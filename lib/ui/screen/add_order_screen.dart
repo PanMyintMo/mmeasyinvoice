@@ -5,14 +5,9 @@ import 'package:mmeasyInvoice/state/get/cubit/fetch_country_cubit.dart';
 import 'package:mmeasyInvoice/state/get/cubit/order_filter_cubit.dart';
 import 'package:mmeasyInvoice/ui/widget/add_order_widget.dart';
 
-class AddOrderScreen extends StatefulWidget {
+class AddOrderScreen extends StatelessWidget {
   const AddOrderScreen({super.key});
 
-  @override
-  State<AddOrderScreen> createState() => _AddOrderScreenState();
-}
-
-class _AddOrderScreenState extends State<AddOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

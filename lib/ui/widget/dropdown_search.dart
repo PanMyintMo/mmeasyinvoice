@@ -10,15 +10,15 @@ Widget buildDropDownSearch({
     selectedItem: value,
     items: items ?? [],
     onChanged: onChanged,
-    dropdownDecoratorProps: DropDownDecoratorProps(
+    dropdownDecoratorProps: const DropDownDecoratorProps(
       dropdownSearchDecoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.grey),
-          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(color: Colors.grey),
+         
         ),
         border: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.grey),
-          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(color: Colors.grey),
+        
         ),
       ),
     ),

@@ -4,14 +4,9 @@ import 'package:mmeasyInvoice/dependency.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_delivery_cubit.dart';
 import 'package:mmeasyInvoice/ui/widget/all_delivery_widget.dart';
 
-class AllDeliveryScreen extends StatefulWidget {
+class AllDeliveryScreen extends StatelessWidget {
   const AllDeliveryScreen({super.key});
 
-  @override
-  State<AllDeliveryScreen> createState() => _AllDeliveryScreenState();
-}
-
-class _AllDeliveryScreenState extends State<AllDeliveryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +19,7 @@ class _AllDeliveryScreenState extends State<AllDeliveryScreen> {
       body: MultiBlocProvider(providers: [
         BlocProvider(create: (context) {
           final cubit = FetchingDeliveryCubit(getIt.call());
-          cubit.fetchingDelivery(1);
+          cubit.fetchingDelivery();
           return cubit;
         })
       ], child: const AllDeliveryWidget()),

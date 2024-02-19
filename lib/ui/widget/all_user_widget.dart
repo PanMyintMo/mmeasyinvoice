@@ -7,7 +7,7 @@ import 'package:mmeasyInvoice/state/get/cubit/fetch_user_role_cubit.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_user_role_state.dart';
 
 class AllUserRoleWidget extends StatefulWidget {
-  const AllUserRoleWidget({Key? key}) : super(key: key);
+  const AllUserRoleWidget({super.key});
 
   @override
   State<AllUserRoleWidget> createState() => _AllUserRoleWidgetState();
@@ -31,7 +31,7 @@ class _AllUserRoleWidgetState extends State<AllUserRoleWidget> {
       userType = utype ?? '';
     });
 
-    // Trigger the initial data fetch
+   
     loadMoreData();
   }
 
@@ -44,7 +44,7 @@ class _AllUserRoleWidgetState extends State<AllUserRoleWidget> {
 
       await context.read<FetchingUserCubit>().fetchingAllUsers();
 
-      // Simulate loading delay
+      
       await Future.delayed(const Duration(seconds: 2));
 
       setState(() {

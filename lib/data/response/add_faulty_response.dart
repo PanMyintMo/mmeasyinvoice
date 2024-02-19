@@ -4,7 +4,9 @@ class AddFaultyItemResponse {
   final String message;
 
   AddFaultyItemResponse(
-      {required this.data, required this.status, required this.message});
+      {required this.data,
+       required this.status,
+        required this.message});
 
   factory AddFaultyItemResponse.fromJson(Map<String, dynamic> json) {
     return AddFaultyItemResponse(

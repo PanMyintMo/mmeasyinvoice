@@ -1,13 +1,15 @@
 import 'dart:async';
-import 'package:mmeasyInvoice/data/network/BaseApiServices.dart';
-import 'package:mmeasyInvoice/data/network/NetworkApiServices.dart';
 import 'package:mmeasyInvoice/util/app_logger.dart';
 import 'package:mmeasyInvoice/util/app_url.dart';
+import 'package:mmeasyInvoice/data/network/BaseApiServices.dart';
+import 'package:mmeasyInvoice/data/network/NetworkApiServices.dart';
 
 class AuthRepository {
   BaseApiService apiService = NetworkApiService();
 
   Future<dynamic> loginApi(dynamic data) async {
+    //    logger.e('Api Login Route is ${AppUrl.requestShopkeeper}/$data');
+
     try {
       dynamic response =
           await apiService.getPostApiResponse(AppUrl.loginEndPoint, data);
@@ -28,10 +30,11 @@ class AuthRepository {
   }
 
   Future<dynamic> filterOrder(String filterType) async {
-    //logger.e('API URL: ${AppUrl.orderFilterEndPoint(filterType)}');
+    // logger.e('API URL: ${AppUrl.orderFilterEndPoint(filterType)}');
     try {
       dynamic response = await apiService
           .getGetApiResponse(AppUrl.orderFilterEndPoint(filterType));
+      // logger.e('Response is $response');
       return response;
     } catch (e) {
       rethrow;
@@ -47,13 +50,43 @@ class AuthRepository {
     }
   }
 
+  //for order detail
+
+  Future<dynamic> orderByDate(int page, dynamic data) async {
+    //logger.e('API URL: ${AppUrl.orderByDate}$page');
+
+    try {
+      dynamic response = await apiService.getPostApiResponse(
+          '${AppUrl.orderByDate}$page', data);
+      // logger.e('Response is $response');
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //for barcode scan
+
+  Future<dynamic> barcodeInvoice(dynamic data) async {
+    //logger.e('API URL: ${AppUrl.orderByDate}$page');
+
+    try {
+      dynamic response =
+          await apiService.getPostApiResponse(AppUrl.barcodeScan, data);
+      logger.e('Barcode Response is $response');
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 //for delivery man
   Future<dynamic> warehouseReqestApi(int page) async {
     // logger.e('Api route is ${AppUrl.receivedWarehouseRequest}$page');
     try {
       dynamic response = await apiService
           .getGetApiResponse('${AppUrl.receivedWarehouseRequest}$page');
-      logger.e('Response are $response');
+      // logger.e('Response are $response');
       return response;
     } catch (e) {
       rethrow;
@@ -251,9 +284,22 @@ class AuthRepository {
     }
   }
 
+  //fetch all city by country Id
+  Future<dynamic> fetchCityByCountryId(int id) async {
+    // logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
+    try {
+      dynamic response =
+          await apiService.getGetApiResponse('${AppUrl.cityByCountryId}/$id');
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   //fetch all township by city Id
   Future<dynamic> fetchTownshipByCityId(int id) async {
-   // logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
+    // logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
     try {
       dynamic response =
           await apiService.getGetApiResponse('${AppUrl.townshipByCityId}/$id');
@@ -266,7 +312,7 @@ class AuthRepository {
 
   //fetch all ward by township Id
   Future<dynamic> fetchWardByTownshipId(int id) async {
-   // logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
+    // logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
     try {
       dynamic response =
           await apiService.getGetApiResponse('${AppUrl.wardByTownshipId}/$id');
@@ -277,10 +323,22 @@ class AuthRepository {
     }
   }
 
+  //add ward
+  Future<dynamic> addWard(dynamic data) async {
+    // logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
+    try {
+      dynamic response =
+          await apiService.getPostApiResponse(AppUrl.addWard, data);
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   //fetch all street by ward Id
   Future<dynamic> fetchStreetByWardId(int id) async {
-   // logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
+    // logger.e('Api route is ${AppUrl.townshipByCityId}/$id');
     try {
       dynamic response =
           await apiService.getGetApiResponse('${AppUrl.streetByWardId}/$id');
@@ -290,14 +348,31 @@ class AuthRepository {
       rethrow;
     }
   }
+
   //fetch all wards
   Future<dynamic> fetchWard(int page) async {
     try {
       dynamic response =
           await apiService.getGetApiResponse('${AppUrl.getAllWard}$page');
 
+      logger.e("Ward response is $response");
       return response;
     } catch (e) {
+      logger.e("Ward response Error is $e");
+      rethrow;
+    }
+  }
+
+  //fetch all shop keeper
+  Future<dynamic> fetchShopkeeperProduct() async {
+    //logger.e('Api Route is ${AppUrl.shopProduct}');
+    try {
+      dynamic response = await apiService.getGetApiResponse(AppUrl.shopProduct);
+
+      //logger.e("Shop Response are $response");
+      return response;
+    } catch (e) {
+      //logger.e("Shop error is $e");
       rethrow;
     }
   }
@@ -346,6 +421,145 @@ class AuthRepository {
     try {
       dynamic response = await apiService
           .getGetApiResponse('${AppUrl.productByCategoryId}/$id');
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //for request shopkeeper
+  Future<dynamic> requestShopProduct() async {
+    // logger.e('Api route is ${AppUrl.addSize}');
+    try {
+      dynamic response =
+          await apiService.getGetApiResponse(AppUrl.addRequestShopProduct);
+      // logger.e('Auth Response for size $response');
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+//for request shopkeeper
+  Future<dynamic> requestShopKeeper(dynamic data) async {
+    try {
+      dynamic response =
+          await apiService.getPostApiResponse(AppUrl.requestShopkeeper, data);
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //for deliver warehouse request
+  Future<dynamic> deliverWarehouseRequest(int page) async {
+    // logger.e('Api route is ${AppUrl.receivedWarehouseRequest}$page');
+    try {
+      dynamic response = await apiService
+          .getGetApiResponse('${AppUrl.deliverWarehouseRequest}$page');
+      // logger.e('Response are $response');
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //for company profile
+  Future<dynamic> companyProfile() async {
+    //logger.e('Api Route is ${AppUrl.companyProfile}');
+    try {
+      dynamic response =
+          await apiService.getGetApiResponse(AppUrl.companyProfile);
+
+      // logger.e("Company  are $response");
+      return response;
+    } catch (e) {
+      //logger.e("Company are is $e");
+      rethrow;
+    }
+  }
+
+  //for invoice
+  Future<dynamic> invoice() async {
+    //logger.e('Api Route is ${AppUrl.invoice}');
+    try {
+      dynamic response = await apiService.getGetApiResponse(AppUrl.invoice);
+
+      // logger.e("Invoice  are $response");
+      return response;
+    } catch (e) {
+      //logger.e("Invoice are is $e");
+      rethrow;
+    }
+  }
+
+  //delete category by id
+  Future<dynamic> deleteCategoryById(int id) async {
+    try {
+      dynamic response = await apiService
+          .getPostApiforIdResponse('${AppUrl.deleteCateById}/$id');
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //delete size by id
+  Future<dynamic> deleteSizeById(int id) async {
+    try {
+      dynamic response = await apiService
+          .getPostApiforIdResponse('${AppUrl.deleteSizeById}/$id');
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //delete street by id
+  Future<dynamic> deletestreetById(int id) async {
+    try {
+      dynamic response = await apiService
+          .getPostApiforIdResponse('${AppUrl.deleteStreetById}/$id');
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //delete ward by id
+  Future<dynamic> deleteWardById(int id) async {
+    try {
+      dynamic response = await apiService
+          .getPostApiforIdResponse('${AppUrl.deleteWardById}/$id');
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //delete ward by id
+  Future<dynamic> deleteCountryById(int id) async {
+    try {
+      dynamic response = await apiService
+          .getPostApiforIdResponse('${AppUrl.deleteCountryId}/$id');
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //delete ward by id
+  Future<dynamic> deleteTownshipById(int id) async {
+    try {
+      dynamic response = await apiService
+          .getPostApiforIdResponse('${AppUrl.deleteTownshipId}/$id');
+
       return response;
     } catch (e) {
       rethrow;

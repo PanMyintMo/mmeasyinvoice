@@ -4,14 +4,9 @@ import 'package:mmeasyInvoice/dependency.dart';
 import 'package:mmeasyInvoice/state/get/cubit/delivery_cubit.dart';
 import 'package:mmeasyInvoice/ui/widget/delivery_man_widget.dart';
 
-class DeliveryManScreen extends StatefulWidget {
+class DeliveryManScreen extends StatelessWidget {
   const DeliveryManScreen({super.key});
 
-  @override
-  State<DeliveryManScreen> createState() => _DeliveryManScreenState();
-}
-
-class _DeliveryManScreenState extends State<DeliveryManScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

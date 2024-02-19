@@ -26,4 +26,8 @@ class HomeRoute {
   static const String viewStreet = '/viewStreet';
   static const String customerAddress = '/customerAddress';
   static const String customerProfile = '/custmProfile';
+  static const String pdfPage = '/pdfPage';
+  static const String requestShopPrduct = '/requestShopProduct';
+  static const String deliverWarehouseRequest = '/deliverWarehouseRequest';
+  static const String fetchWarehouse = '/warehouse';
 }

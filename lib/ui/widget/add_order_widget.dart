@@ -95,7 +95,7 @@ class _AddOrderWidgetState extends State<AddOrderWidget> {
 
   Future<void> fetchCountyName() async {
     final countryList =
-        await context.read<FetchingCountryCubit>().fetchingCountry(1);
+        await context.read<FetchingCountryCubit>().fetchingCountry();
     setState(() {
       countries = countryList;
     });

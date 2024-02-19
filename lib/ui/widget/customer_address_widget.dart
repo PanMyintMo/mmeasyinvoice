@@ -4,8 +4,9 @@ import 'package:mmeasyInvoice/data/response/locationResponse/city_response.dart'
 import 'package:mmeasyInvoice/data/response/street_response.dart';
 import 'package:mmeasyInvoice/data/response/townsip_by_cityId_response.dart';
 import 'package:mmeasyInvoice/ui/widget/dropdown_search.dart';
-import 'package:mmeasyInvoice/util/common/dropdown_widget.dart';
 import 'package:mmeasyInvoice/util/common/search_class.dart';
+import 'package:mmeasyInvoice/util/common/text_form_field.dart';
+import 'package:mmeasyInvoice/util/common/validation/form_validator.dart';
 import 'package:provider/provider.dart';
 import '../../state/get/cubit/fetch_country_cubit.dart';
 
@@ -17,7 +18,7 @@ class CustomerAddressWidget extends StatefulWidget {
 }
 
 class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
-  String? selectCity;
+  String selectCity = "Select City";
   String selectStreet = 'Select Street';
   String selectTownship = 'Select Township';
   String selectWard = 'Select Ward';
@@ -25,6 +26,9 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
   List<Street>? streets;
   List<TownshipByCityIdData>? townshipId;
   List<WardByTownshipData>? wardId;
+  TextEditingController blockNumber = TextEditingController();
+  TextEditingController floor = TextEditingController();
+  TextEditingController zip = TextEditingController();
 
   @override
   void initState() {
@@ -39,7 +43,7 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
   }
 
   Future<void> retreveCity() async {
-    final response = await context.read<FetchingCountryCubit>().fetchingCity(1);
+    final response = await context.read<FetchingCountryCubit>().fetchingCity();
 
     setState(() {
       cities = response;
@@ -52,7 +56,7 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
 
     setState(() {
       townshipId = response;
-      selectTownship = '';
+      selectTownship = 'Select Township';
     });
   }
 
@@ -71,7 +75,7 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
 
     setState(() {
       wardId = response;
-      selectWard = '';
+      selectWard = 'Select Ward';
     });
   }
 
@@ -79,26 +83,31 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SearchBarClass(),
+            const SizedBox(
+              height: 16,
+            ),
             const Text('City'),
-            buildDropdown(
+            buildDropDownSearch(
               value: selectCity,
-              items: cities?.map((city) {
-                return DropdownMenuItem(
-                    value: city.id.toString(), child: Text(city.name));
-              }).toList(),
-              onChanged: (value) {
+              items: cities?.map((city) => city.name.toString()).toList() ?? [],
+              onChanged: (value) async {
                 setState(() {
                   selectCity = value;
-                  townshipByCityId(int.parse(selectCity!));
+                  final selectedCity = cities?.firstWhere(
+                    (city) => city.name.toString() == value,
+                  );
+                  if (selectedCity != null) {
+                    int cityId = selectedCity.id;
+                    townshipByCityId(cityId);
+                  }
                 });
               },
-              hint: "Select City Name",
             ),
             const SizedBox(
               height: 16,
@@ -163,6 +172,44 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
                 });
               },
             ),
+            const SizedBox(
+              height: 16,
+            ),
+            const Text('Block Number'),
+            buildFormField(
+              label: 'block',
+              controller: blockNumber,
+              validator: validateField,
+              keyboardType: TextInputType.number,
+              readOnly: false,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            const Text('Floor Number'),
+            buildFormField(
+              label: 'floor',
+              controller: floor,
+              validator: validateField,
+              keyboardType: TextInputType.text,
+              readOnly: false,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            const Text('Postcode/Zip : (Optional)'),
+            buildFormField(
+              label: 'zip',
+              controller: zip,
+              validator: validateField,
+              keyboardType: TextInputType.number,
+              readOnly: false,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: ElevatedButton(
+                  onPressed: () {}, child: const Text('Create Address')),
+            )
           ],
         ),
       ),

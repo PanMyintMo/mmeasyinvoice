@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mmeasyInvoice/util/common/app_row_widget.dart';
 import 'package:mmeasyInvoice/util/common/dropdown_widget.dart';
-import 'package:mmeasyInvoice/util/common/dynamic_action_button.dart';
 import 'package:mmeasyInvoice/util/common/text_form_field.dart';
 import 'package:mmeasyInvoice/ui/widget/dotted_image_widget.dart';
+import 'package:mmeasyInvoice/util/common/dynamic_action_button.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_size_cubit.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_category_cubit.dart';
 import 'package:mmeasyInvoice/util/common/validation/form_validator.dart';
 import 'package:mmeasyInvoice/data/response/category_response/category_response.dart';
-
 
 class AddProductWidget extends StatefulWidget {
   const AddProductWidget({super.key});
@@ -61,17 +60,15 @@ class _AddProductWidgetState extends State<AddProductWidget> {
   }
 
   Future<void> fetchSizeName() async {
-    final sizeIdList = await context.read<FetchingSizeCubit>().fetchingSize(1);
+    final sizeIdList = await context.read<FetchingSizeCubit>().fetchingSize();
     setState(() {
       this.sizeIdList = sizeIdList;
     });
-    
-    
   }
 
   void fetchCategoriesName() async {
     final categories =
-        await context.read<FetchingCategoryrCubit>().fetchingCategory(1);
+        await context.read<FetchingCategoryCubit>().fetchingCategory();
 
     setState(() {
       this.categories = categories;
@@ -165,9 +162,8 @@ class _AddProductWidgetState extends State<AddProductWidget> {
               Center(
                 child: dynamicActionButton('Submit', () {
                   if (formKey.currentState!.validate()) ;
-                // _submitForm();
+                  // _submitForm();
                 }),
-                
               ),
             ],
           ),

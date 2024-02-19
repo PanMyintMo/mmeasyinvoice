@@ -34,8 +34,8 @@ class _RegisterState extends State<Register> {
             if (state is AuthSuccess) {}
 
             if (state is LoginSuccess) {
-              // logger.e('Login Success ${state.utype}');
               SharePreferenceService.saveUserRole(state.utype);
+              SharePreferenceService().saveUserUrl(state.response.url ?? '');
 
               SharePreferenceService().saveUserName(state.response.name);
               SharePreferenceService().saveUserEmail(state.response.email);
@@ -252,7 +252,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 if (widget.isLoginMode && !widget.isRegisterMode)
                   ElevatedButton(
                     onPressed: () {
-                      final loginRequestModel = LoginRequestModel(
+                      final loginRequestModel =LoginRequestModel(
                         email: email.text.toString(),
                         password: password.text.toString(),
                       );

@@ -227,19 +227,22 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
           })
     ];
     final List<MenuItem> order = [
-      MenuItem(text: 'All Order', onClicked: () {}),
+      MenuItem(
+          text: 'All Order',
+          onClicked: () {
+            AppRouter.changeRoute<HomeModule>(HomeRoute.allOrder);
+          }),
       MenuItem(
           text: 'Add Order',
           onClicked: () {
             AppRouter.changeRoute<HomeModule>(HomeRoute.addOrder);
           }),
-
-           MenuItem(
+      MenuItem(
           text: 'Customer Profile',
           onClicked: () {
             AppRouter.changeRoute<HomeModule>(HomeRoute.customerProfile);
           }),
-           MenuItem(
+      MenuItem(
           text: 'Customer Address',
           onClicked: () {
             AppRouter.changeRoute<HomeModule>(HomeRoute.customerAddress);
@@ -308,7 +311,9 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
           buildMenuItem(
             text: 'ShopKeeper',
             icon: Icons.shop,
-            onClicked: () {},
+            onClicked: () {
+              AppRouter.changeRoute<HomeModule>(HomeRoute.shopKeeper);
+            },
           ),
         const SizedBox(height: 16),
         if (utype == 'ADM')
@@ -370,18 +375,16 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             text: 'Product Invoice',
             icon: Icons.insert_drive_file_sharp,
             onClicked: () {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (context) => const ProductInvoiceScreen(),
-              //   ),
-              // );
+              AppRouter.changeRoute<HomeModule>(HomeRoute.productInvoice);
             },
           ),
         const SizedBox(height: 16),
         buildMenuItem(
           text: 'Company Profile',
           icon: Icons.camera_outdoor,
-          onClicked: () {},
+          onClicked: () {
+            AppRouter.changeRoute<HomeModule>(HomeRoute.companyProfile);
+          },
         ),
         const SizedBox(height: 16),
         CustomExpansionTile(
@@ -397,14 +400,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
           buildMenuItem(
             text: 'Product Invoice',
             icon: Icons.shop,
-            onClicked: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const ProductInvoiceScreen(),
-              //   ),
-              // );
-            },
+            onClicked: () {},
           ),
         if (utype == 'SK' || utype == 'ADM')
           CustomExpansionTile(
@@ -420,8 +416,10 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
           text: 'Logout',
           icon: Icons.exit_to_app,
           onClicked: () {
+             AppRouter.changeRoute<AuthModule>(AuthRoutes.root);
             SharePreferenceService().removeToken();
-            AppRouter.changeRoute<AuthModule>(AuthRoutes.root);
+            SharePreferenceService().removeUserRole(); 
+           
           },
         ),
       ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mmeasyInvoice/util/common/app_row_widget.dart';
 import 'package:mmeasyInvoice/util/common/dynamic_action_button.dart';
 import 'package:mmeasyInvoice/util/common/search_class.dart';
 import 'package:mmeasyInvoice/util/common/two_row_widget.dart';
@@ -33,10 +32,7 @@ class _CustomerProfileWidgetState extends State<CustomerProfileWidget> {
             Container(
                 padding: const EdgeInsets.all(16),
                 child: const SearchBarClass()),
-            rowWidget('Phone Number', phone, false),
-            const SizedBox(
-              height: 16,
-            ),
+         
             dynamicTwoRowWidget([
               RowData(
                   label: 'First Name',

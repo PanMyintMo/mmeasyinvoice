@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mmeasyInvoice/dependency.dart';
-import 'package:mmeasyInvoice/state/get/cubit/fetch_country_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mmeasyInvoice/ui/widget/city_widget.dart';
+import 'package:mmeasyInvoice/state/get/cubit/fetch_country_cubit.dart';
 
-class CityScreen extends StatefulWidget {
+class CityScreen extends StatelessWidget {
   const CityScreen({super.key});
 
-  @override
-  State<CityScreen> createState() => _CityScreenState();
-}
-
-class _CityScreenState extends State<CityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +20,7 @@ class _CityScreenState extends State<CityScreen> {
           providers: [
             BlocProvider(create: (context) {
             final cubit = FetchingCountryCubit(getIt.call());
-            cubit.fetchingCity(1);
+            cubit.fetchingCity();
             return cubit;
           }
           )

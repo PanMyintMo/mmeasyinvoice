@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mmeasyInvoice/app_router.dart';
-import 'package:mmeasyInvoice/auth/location/location_module.dart';
-import 'package:mmeasyInvoice/auth/location/location_route.dart';
-import 'package:mmeasyInvoice/data/response/township_response.dart';
-import 'package:mmeasyInvoice/state/get/cubit/fetch_township_cubit.dart';
-import 'package:mmeasyInvoice/state/get/cubit/fetch_township_state.dart';
-import 'package:mmeasyInvoice/ui/widget/all_delivery_widget.dart';
-import 'package:mmeasyInvoice/util/common/build_data_column_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mmeasyInvoice/ui/widget/show_custom_dialog.dart';
 import 'package:mmeasyInvoice/util/common/data_source.dart';
+import 'package:mmeasyInvoice/auth/location/location_route.dart';
+import 'package:mmeasyInvoice/ui/widget/all_delivery_widget.dart';
+import 'package:mmeasyInvoice/auth/location/location_module.dart';
 import 'package:mmeasyInvoice/util/common/general_pagination.dart';
+import 'package:mmeasyInvoice/data/response/township_response.dart';
+import 'package:mmeasyInvoice/state/get/cubit/fetch_country_cubit.dart';
+import 'package:mmeasyInvoice/state/get/cubit/fetch_country_state.dart';
+import 'package:mmeasyInvoice/util/common/build_data_column_widget.dart';
 
 class AllTownshipWidget extends StatefulWidget {
-  const AllTownshipWidget({super.key});
+  final List<Township> townships;
+  const AllTownshipWidget({super.key, required this.townships});
 
   @override
   State<AllTownshipWidget> createState() => _AllTownshipWidgetState();
@@ -28,11 +31,11 @@ class _AllTownshipWidgetState extends State<AllTownshipWidget> {
       child: Column(
         children: [
           buildDynamicButton('Add New Township', () {
-             AppRouter.changeRoute<LocationModule>(LocationRoute.township);
+            AppRouter.changeRoute<LocationModule>(LocationRoute.township);
           }),
-          BlocBuilder<FetchingTownshipCubit, FetchingTownshipState>(
+          BlocBuilder<FetchingCountryCubit, FetchingCountryState>(
             builder: (context, state) {
-              if (state is FetchTownshipLoading) {
+              if (state is FetchCountryLoading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
@@ -45,14 +48,41 @@ class _AllTownshipWidgetState extends State<AllTownshipWidget> {
                     buildDataColumn('Action'),
                   ],
                   source: DataSource<Township>(
-                    data: townships ?? [],
+                    data: widget.townships,
                     buildRowWidgets: (rowData) => [
                       Text(rowData.id.toString()),
                       Text(rowData.name),
                       Row(
                         children: [
-                          ElevatedButton(
-                              onPressed: () {}, child: const Text('Delete')),
+                          GestureDetector(
+                            onTap: () {
+                              showCustomDialog(
+                                title: 'Delete Ward!',
+                                content:
+                                    'Are you sure you want to delete this ward?',
+                                confirmText: 'Yes',
+                                onConfirm: () async {
+                                  EasyLoading.show(
+                                    status: 'Loading...',
+                                    maskType: EasyLoadingMaskType.black,
+                                  );
+                                  try {
+                                    await context
+                                        .read<FetchingCountryCubit>()
+                                        .deleteTownshipId(rowData.id);
+                                    EasyLoading.dismiss();
+                                  } catch (error) {
+                                    EasyLoading.dismiss();
+                                  }
+                                },
+                                context: context,
+                              );
+                            },
+                            child: const Icon(
+                              Icons.delete_forever,
+                              color: Colors.red,
+                            ),
+                          ),
                           const SizedBox(
                             width: 10,
                           ),

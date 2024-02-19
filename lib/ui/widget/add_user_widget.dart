@@ -41,6 +41,7 @@ class _AddUserWidgetState extends State<AddUserWidget> {
       child: Form(
         key: _formKey,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
                 height: 200,
@@ -74,8 +75,8 @@ class _AddUserWidgetState extends State<AddUserWidget> {
                 FormValidator.validatePassword,
                 TextInputType.visiblePassword,
                 null),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
               child: buildDropdown(
                   value: selectedUserRole,
                   items: userItems.map((item) {
@@ -91,34 +92,44 @@ class _AddUserWidgetState extends State<AddUserWidget> {
                   },
                   hint: "Select a user role"),
             ),
-            ElevatedButton(
-              style: ThemeHelperUserRole().buttonStyle(),
-              onPressed: () async {
-                if (!_isAddingUser && _formKey.currentState!.validate()) {
-                  _formKey.currentState?.save();
-                  if (selectedUserRole == null || selectedUserRole!.isEmpty) {
-                    EasyLoading.dismiss();
-                    return;
-                  } else {
-                    await context.read<AddUserCubit>().addUser(
-                          UserRequestModel(
-                            name: name.text,
-                            email: email.text,
-                            password: password.text,
-                            utpye: selectedUserRole!,
-                            newimage: image,
-                          ),
-                        );
-
-                    EasyLoading.dismiss();
-                  }
-                }
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(12.0),
-                child: Text(
-                  'Add User Role',
-                  style: TextStyle(fontSize: 20),
+            const SizedBox(
+              height: 16,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+              child: SizedBox(
+                
+                width: MediaQuery.of(context).size.width,
+                child: ElevatedButton(
+                  style: ThemeHelperUserRole().buttonStyle(),
+                  onPressed: () async {
+                    if (!_isAddingUser && _formKey.currentState!.validate()) {
+                      _formKey.currentState?.save();
+                      if (selectedUserRole == null || selectedUserRole!.isEmpty) {
+                        EasyLoading.dismiss();
+                        return;
+                      } else {
+                        await context.read<AddUserCubit>().addUser(
+                              UserRequestModel(
+                                name: name.text,
+                                email: email.text,
+                                password: password.text,
+                                utpye: selectedUserRole!,
+                                newimage: image,
+                              ),
+                            );
+              
+                        EasyLoading.dismiss();
+                      }
+                    }
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Text(
+                      'Add User Role',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
                 ),
               ),
             ),

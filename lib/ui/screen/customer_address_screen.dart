@@ -4,14 +4,9 @@ import 'package:mmeasyInvoice/state/get/cubit/fetch_country_cubit.dart';
 import 'package:mmeasyInvoice/ui/widget/customer_address_widget.dart';
 import '../../dependency.dart';
 
-class CustomerAddressScreen extends StatefulWidget {
+class CustomerAddressScreen extends StatelessWidget {
   const CustomerAddressScreen({super.key});
 
-  @override
-  State<CustomerAddressScreen> createState() => _CustomerAddressScreenState();
-}
-
-class _CustomerAddressScreenState extends State<CustomerAddressScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

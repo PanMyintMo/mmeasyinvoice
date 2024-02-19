@@ -6,14 +6,9 @@ import 'package:mmeasyInvoice/state/post/cubit/add_city_state.dart';
 import 'package:mmeasyInvoice/ui/widget/add_city_widget.dart';
 import 'package:mmeasyInvoice/util/common/toast_message.dart';
 
-class AddCityScreen extends StatefulWidget {
+class AddCityScreen extends StatelessWidget {
   const AddCityScreen({super.key});
 
-  @override
-  State<AddCityScreen> createState() => _AddCityScreenState();
-}
-
-class _AddCityScreenState extends State<AddCityScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -1,5 +1,3 @@
-
-
 import 'package:mmeasyInvoice/data/response/authResponse/auth_response.dart';
 
 class LoginResponse extends AuthResponse {
@@ -14,6 +12,7 @@ class LoginResponse extends AuthResponse {
     required super.status,
     required super.message,
     required super.token,
+    required super.url,
   });
 
   factory LoginResponse.fromJson(Map<String, dynamic> data) {
@@ -27,6 +26,7 @@ class LoginResponse extends AuthResponse {
       status: data['status'],
       message: data['message'],
       token: data['token'],
+      url: data['url'],
     );
   }
 }

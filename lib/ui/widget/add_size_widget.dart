@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mmeasyInvoice/data/data_request_model/add_category_request_model.dart';
-import 'package:mmeasyInvoice/state/post/cubit/add_size_cubit.dart';
+import 'package:mmeasyInvoice/state/get/cubit/fetch_size_cubit.dart';
 import 'package:mmeasyInvoice/ui/widget/add_user_widget.dart';
 import 'package:mmeasyInvoice/util/common/validation/form_validator.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +37,7 @@ class _AddSizeWidgetState extends State<AddSizeWidget> {
         ElevatedButton(
             onPressed: () async{
         await context
-                  .read<AddSizeCubit>()
+                  .read<FetchingSizeCubit>()
                   .addSize(AddRequestModel(name.text, slug.text));
             },
             child: const Text(

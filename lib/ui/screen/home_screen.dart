@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mmeasyInvoice/dependency.dart';
+import 'package:mmeasyInvoice/app_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mmeasyInvoice/auth/home_module.dart';
 import 'package:mmeasyInvoice/util/common/share_util.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mmeasyInvoice/util/common/cardview_widget.dart';
@@ -12,6 +14,7 @@ import 'package:mmeasyInvoice/util/common/build_data_column_widget.dart';
 import 'package:mmeasyInvoice/util/common/navigationdrawer/navigation_drawer_widget.dart';
 import 'package:mmeasyInvoice/data/response/order_filter_response/order_filter.dart';
 import 'package:mmeasyInvoice/data/response/warehouseResponse/warehouse_response.dart';
+import 'package:mmeasyInvoice/util/home_route.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,8 +25,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String utype = '';
+  String? uname;
+  String? url;
   String dropDownValue = 'default';
-  OrderFilter? orderFilter;
+  List<OrderDatas>? orderFilter;
   WarehouseResponse? warehouseData;
 
   List<String> filterItem = [
@@ -42,10 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> retrieveUserType() async {
-    final userType = (await SharePreferenceService().getUserRole())!;
-
+    final userType = await SharePreferenceService().getUserRole();
+    var username = await SharePreferenceService().getUserName();
+    var userUrl = await SharePreferenceService().getUserUrl();
     setState(() {
-      utype = userType;
+      utype = userType!;
+      uname = username;
+
+      url = userUrl;
     });
   }
 
@@ -54,34 +63,67 @@ class _HomeScreenState extends State<HomeScreen> {
     return buildCardView(imagePath, title, value, unit, onPressed);
   }
 
-  Widget _buildCards(OrderFilter? orderFilter) {
+  String? totalRevenue;
+  String? totalSale;
+  String? totalProfit;
+  String? totalFaulty;
+  int? totalWarehouseQty;
+  String? shopKeeper;
+
+  Widget _buildCards() {
     return SizedBox(
       height: 120,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           if (utype == 'ADM')
-            _buildCardView('assets/revenue.png', 'Total Revenue',
-                orderFilter?.totalRevenue.toString() ?? '0', '\$', () {}),
-          _buildCardView('assets/sale.jpg', 'Total Sale',
-              orderFilter?.totalSales.toString() ?? '0', ' (Sales)', () {}),
-          _buildCardView('assets/profits.png', 'Total Profit',
-              orderFilter?.totalProfit.toString() ?? '0', '\$', () {}),
+            _buildCardView(
+              'assets/revenue.png',
+              'Total Revenue',
+              totalRevenue ?? '0',
+              '\$',
+              () {},
+            ),
           _buildCardView(
-              'assets/faulty.png',
-              'Faulty Item',
-              orderFilter?.totalFaultyItem.toString() ?? '0',
-              ' (Items)',
-              () {}),
-          _buildCardView('assets/warehouse.png', 'Ware House',
-              orderFilter?.totalWareHouseQuantity.toString() ?? '0', '', () {}),
+            'assets/sale.jpg',
+            'Total Sale',
+            totalSale ?? '0',
+            ' (Sales)',
+            () {},
+          ),
+          _buildCardView(
+            'assets/profits.png',
+            'Total Profit',
+            totalProfit.toString(),
+            '\$',
+            () {},
+          ),
+          _buildCardView(
+            'assets/faulty.png',
+            'Faulty Item',
+            totalFaulty.toString(),
+            ' (Items)',
+            () {
+              AppRouter.changeRoute<HomeModule>(HomeRoute.allFaultyItem);
+            },
+          ),
+          _buildCardView(
+            'assets/warehouse.png',
+            'Ware House',
+            totalWarehouseQty.toString(),
+            '',
+            () {
+              AppRouter.changeRoute<HomeModule>(HomeRoute.fetchWarehouse);
+            },
+          ),
           if (utype == 'ADM' || utype == 'SK')
             _buildCardView(
-                'assets/shopkeeper.jpg',
-                'Shop Keeper',
-                orderFilter?.shopKeeper.toString() ?? '0',
-                '(Item Left)',
-                () {}),
+              'assets/shopkeeper.jpg',
+              'Shop Keeper',
+              shopKeeper ?? '0',
+              '(Item Left)',
+              () {},
+            ),
         ],
       ),
     );
@@ -165,14 +207,12 @@ class _HomeScreenState extends State<HomeScreen> {
               buildDataColumn('Quantity'),
               buildDataColumn('Email'),
             ],
-            rows:
-                orderFilter?.data?.map((data) => buildDataRow(data)).toList() ??
-                    [],
+            rows: orderFilter?.map((data) => buildDataRow(data)).toList() ?? [],
           ))
     ]);
   }
 
-  DataRow buildDataRow(OrderData data) {
+  DataRow buildDataRow(OrderDatas data) {
     return DataRow(cells: [
       DataCell(Text(data.order_id.toString(),
           style: const TextStyle(color: Colors.grey))),
@@ -205,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
       child: Scaffold(
-        appBar: utype == 'ADM' ? _buildAdminAppBar() : null,
+        appBar: _buildAdminAppBar(),
         drawer: const NavigationDrawerWidget(),
         body: SingleChildScrollView(
           child: Center(
@@ -215,14 +255,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (context, state) {
                     if (state is OrderFilterSuccess) {
                       EasyLoading.dismiss();
-                      orderFilter = state.orderFilter;
+                      orderFilter = state.orderData;
+                      shopKeeper = state.shopKeeper.toString();
+                      totalFaulty = state.totalFaultyItem.toString();
+                      totalProfit = state.totalProfit.toString();
+                      totalRevenue = state.totalRevenue.toString();
+                      totalWarehouseQty = state.totalWareHouseQuantity;
+                      totalSale = state.totalSales.toString();
+                      state.totalWareHouseQuantity;
                     } else if (state is OrderFilterFailed) {
                       EasyLoading.dismiss();
                     }
                     return Column(
                       children: [
                         buildDropDown(context),
-                        _buildCards(orderFilter),
+                        _buildCards(),
                         _buildSectionTitle("All Order"),
                       ],
                     );
@@ -295,9 +342,39 @@ class _HomeScreenState extends State<HomeScreen> {
 
   AppBar _buildAdminAppBar() {
     return AppBar(
-      title: const Text('Dashboard',
-          style:
-              TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent)),
+      title: utype == 'ADM'
+          ? const Text('Dashboard',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.blueAccent))
+          : const Text(
+              'MMEasyInvoice',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.blueAccent,
+              ),
+            ),
+      actions: [
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: Text(
+                uname?.split(" ").first.toString() ?? "User Name",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: url != null && url!.isNotEmpty
+                    ? CircleAvatar(
+                        radius: 20, backgroundImage: NetworkImage(url!))
+                    : const Icon(
+                        Icons.account_circle_rounded,
+                        size: 37,
+                      )),
+          ],
+        )
+      ],
     );
   }
 }

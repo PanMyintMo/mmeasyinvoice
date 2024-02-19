@@ -6,14 +6,9 @@ import 'package:mmeasyInvoice/state/get/cubit/delivery_state.dart';
 import 'package:mmeasyInvoice/ui/widget/add_delivery_widget.dart';
 import 'package:mmeasyInvoice/util/common/toast_message.dart';
 
-class AddDeliveryScreen extends StatefulWidget {
+class AddDeliveryScreen extends StatelessWidget {
   const AddDeliveryScreen({super.key});
 
-  @override
-  State<AddDeliveryScreen> createState() => _AddDeliveryScreenState();
-}
-
-class _AddDeliveryScreenState extends State<AddDeliveryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

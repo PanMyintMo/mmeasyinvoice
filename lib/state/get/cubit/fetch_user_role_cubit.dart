@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:mmeasyInvoice/data/repository/auth_repository.dart';
+import 'package:mmeasyInvoice/data/response/company_profile_response.dart';
 import 'package:mmeasyInvoice/data/response/user_role_response.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_user_role_state.dart';
-
 class FetchingUserCubit extends Cubit<FetchingUserState> {
   final AuthRepository _authRepository;
   int _currentPage = 1;
@@ -10,7 +10,6 @@ class FetchingUserCubit extends Cubit<FetchingUserState> {
   FetchingUserCubit(this._authRepository) : super(FetchUserInitial());
 
   Future<void> fetchingAllUsers() async {
-  
     emit(const FetchUserLoading());
 
     try {
@@ -45,6 +44,23 @@ class FetchingUserCubit extends Cubit<FetchingUserState> {
         }
       }
     } catch (e) {
+      emit(FetchingUserFailed(error: e.toString()));
+    }
+  }
+
+//for company profile
+
+  Future<void> fetchCompanyProfileSuccess() async {
+    emit(const FetchUserLoading());
+
+    try {
+      final response = await _authRepository.companyProfile();
+     // logger.e("Company Profile response is $response");
+      final profileResponse = CompanyProfileResponse.fromJson(response);
+
+      emit(CompanyProfile(profileResponse));
+    } catch (e) {
+    //  logger.e("Failed $e");
       emit(FetchingUserFailed(error: e.toString()));
     }
   }

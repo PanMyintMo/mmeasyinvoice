@@ -59,6 +59,13 @@ dependencies:
   fluttertoast: ^8.2.4
   dotted_border: ^2.1.0
   dropdown_search: ^5.0.6
+  line_awesome_flutter: ^2.0.0
+  blue_thermal_printer: ^1.2.3
+  esc_pos_utils_plus: ^2.0.3
+  pdf: ^3.10.7
+  get: ^4.6.6
+  circular_profile_avatar: ^2.0.5
+  simple_barcode_scanner: ^0.1.0
 
 dev_dependencies:
   flutter_test:

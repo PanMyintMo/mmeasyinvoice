@@ -33,4 +33,34 @@ class AppUrl {
   static var townshipByCityId = '${baseUrl}townships-by-cityid';
   static var wardByTownshipId = '${baseUrl}wards-by-townshipid';
   static var streetByWardId = '${baseUrl}streets-by-wardid';
+  static var shopProduct = '${baseUrl}shop-products';
+  static var addRequestShopProduct = '${baseUrl}shopkeeper-request';
+  static var requestShopkeeper = '${baseUrl}add-shopkeeper';
+  static var deliverWarehouseRequest =
+      '{baseUrl}delivered-warehouse-request?page=';
+  static var companyProfile = '${baseUrl}profile';
+  static var invoice = '${baseUrl}invoice';
+  static var addWard = '${baseUrl}add-ward';
+  static var cityByCountryId = '${baseUrl}cities-by-countryid';
+  static var orderByDate = '${baseUrl}ordersByDate?page=';
+  static var barcodeScan = '${baseUrl}barcodescan';
+  //delete part
+  static var deleteCateById = '${baseUrl}delete-category';
+  static var deleteSizeById = '${baseUrl}delete-size';
+  static var deleteStreetById = '${baseUrl}delete-street';
+  static var deleteWardById = '${baseUrl}delete-ward';
+  static var deleteCountryId = '${baseUrl}delete-country';
+  static var deleteTownshipId = '${baseUrl}delete-township';
+  //edit part
+
+  static var editCategory = '${baseUrl}edit-category';
+  static var editSize = '${baseUrl}edit-size';
+  static var editUser = '${baseUrl}edit-user';
+  static var editProduct = '${baseUrl}edit-product';
+  static var editDelivery = '${baseUrl}edit-delivery';
+  static var editProfile = '${baseUrl}edit-profile';
+  static var editCountry = '${baseUrl}edit-country';
+  static var editCity = '${baseUrl}edit-city';
+  static var editWard = '${baseUrl}edit-ward';
+  static var editTownship = '${baseUrl}edit-township';
 }

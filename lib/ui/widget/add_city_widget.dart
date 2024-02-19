@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mmeasyInvoice/util/common/dropdown_widget.dart';
+import 'package:mmeasyInvoice/state/post/cubit/add_city_cubit.dart';
+import 'package:mmeasyInvoice/state/get/cubit/fetch_country_cubit.dart';
 import 'package:mmeasyInvoice/data/data_request_model/add_city_request_model.dart';
 import 'package:mmeasyInvoice/data/response/locationResponse/country_response.dart';
-import 'package:mmeasyInvoice/state/get/cubit/fetch_country_cubit.dart';
-import 'package:mmeasyInvoice/state/post/cubit/add_city_cubit.dart';
-
-import 'package:mmeasyInvoice/util/common/dropdown_widget.dart';
 
 class AddCityWidget extends StatefulWidget {
   const AddCityWidget({super.key});
@@ -24,11 +23,9 @@ class _AddCityWidgetState extends State<AddCityWidget> {
 
   void fetchAllCountryName() async {
     final countryNameList =
-        await context.read<FetchingCountryCubit>().fetchingCountry(1);
-        // logger.e('Countries list are $countryNameList');
+        await context.read<FetchingCountryCubit>().fetchingCountry();
     setState(() {
       countries = countryNameList!;
- //     logger.e('Countries  $countries');
     });
   }
 

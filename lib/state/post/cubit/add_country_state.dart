@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:mmeasyInvoice/data/response/add_country_response.dart';
+import 'package:mmeasyInvoice/data/response/add_ward_response.dart';
 
 
 abstract class AddCountryState extends Equatable {
@@ -59,4 +60,23 @@ class AddCountryFailed extends AddCountryState {
   List<Object?> get props => [error];
 
 }
+
+
+class AddWardSuccess extends AddCountryState {
+
+  final AddWardResponse response;
+
+
+  const AddWardSuccess(this.response);
+
+
+  AddWardResponse get userResponse => response;
+
+
+  @override
+
+  List<Object?> get props => [response];
+
+}
+
 

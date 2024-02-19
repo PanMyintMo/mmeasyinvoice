@@ -8,14 +8,9 @@ import 'package:mmeasyInvoice/state/post/cubit/add_faulty_state.dart';
 import 'package:mmeasyInvoice/ui/widget/add_faulty_item_widget.dart';
 import 'package:mmeasyInvoice/util/common/toast_message.dart';
 
-class AddFaultyItemScreen extends StatefulWidget {
+class AddFaultyItemScreen extends StatelessWidget {
   const AddFaultyItemScreen({super.key});
 
-  @override
-  State<AddFaultyItemScreen> createState() => _AddFaultyItemScreenState();
-}
-
-class _AddFaultyItemScreenState extends State<AddFaultyItemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +28,7 @@ class _AddFaultyItemScreenState extends State<AddFaultyItemScreen> {
         providers: [
           BlocProvider(create: (context) => AddFaultyCubit(getIt.call())),
           BlocProvider(
-              create: (context) => FetchingCategoryrCubit(getIt.call())),
+              create: (context) => FetchingCategoryCubit(getIt.call())),
               BlocProvider(
               create: (context) => FetchingProductCubit(getIt.call())),
         ],

@@ -7,8 +7,8 @@ class ApiService {
 
   ApiService._internal() {
     dio.options = BaseOptions(
-      connectTimeout: const Duration(milliseconds: 1000),
-      receiveTimeout: const Duration(milliseconds: 1000),
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 15),
       baseUrl: AppUrl.baseUrl,
       contentType: 'application/json',
     );

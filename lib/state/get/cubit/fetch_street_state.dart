@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:mmeasyInvoice/data/response/delete_response.dart';
 
 import 'package:mmeasyInvoice/data/response/street_response.dart';
 
@@ -36,13 +37,26 @@ class FetchingStreetSuccess extends FetchingStreetState {
   const FetchingStreetSuccess(this._street);
 
 
-  List<Street> get street => _street;
+  List<Street> get streets => _street;
 
 
   @override
 
   List<Object?> get props => [_street];
 
+}
+
+
+//delete street by id
+class DeleteStreetbyId extends FetchingStreetState {
+  final DeleteResponse _deleteResponse;
+
+  DeleteResponse get response => _deleteResponse;
+
+  @override
+  const DeleteStreetbyId(this._deleteResponse);
+  @override
+  List<Object?> get props => [_deleteResponse];
 }
 
 

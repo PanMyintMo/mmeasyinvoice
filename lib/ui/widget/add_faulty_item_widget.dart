@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mmeasyInvoice/app_router.dart';
+import 'package:mmeasyInvoice/auth/home_module.dart';
 import 'package:mmeasyInvoice/data/data_request_model/add_faulty_request_model.dart';
 import 'package:mmeasyInvoice/data/response/all_product_response.dart';
 import 'package:mmeasyInvoice/data/response/category_response/category_response.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_all_produc_cubit.dart';
 import 'package:mmeasyInvoice/state/get/cubit/fetch_category_cubit.dart';
 import 'package:mmeasyInvoice/state/post/cubit/add_faulty_cubit.dart';
+import 'package:mmeasyInvoice/ui/widget/all_delivery_widget.dart';
 import 'package:mmeasyInvoice/util/common/dropdown_widget.dart';
 import 'package:mmeasyInvoice/util/common/text_form_field.dart';
 import 'package:mmeasyInvoice/util/common/validation/form_validator.dart';
+import 'package:mmeasyInvoice/util/home_route.dart';
 
 class AddFaultyItemWidget extends StatefulWidget {
   const AddFaultyItemWidget({super.key});
@@ -33,7 +37,7 @@ class _AddFaultyItemWidgetState extends State<AddFaultyItemWidget> {
 
   void fetchCategoriesName() async {
     final categories =
-        await context.read<FetchingCategoryrCubit>().fetchingCategory(1);
+        await context.read<FetchingCategoryCubit>().fetchingCategory();
 
     setState(() {
       this.categories = categories;
@@ -60,17 +64,10 @@ class _AddFaultyItemWidgetState extends State<AddFaultyItemWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: TextButton(
-                    onPressed: () {},
-                    child: const Text('All FaultyItems',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold))),
-              ),
+              buildDynamicButton('All Faulty Items', () {
+                AppRouter.changeRoute<HomeModule>(HomeRoute.allFaultyItem);
+              }),
+              
               const Text('Category',
                   style: TextStyle(
                       fontSize: 18,
@@ -79,23 +76,20 @@ class _AddFaultyItemWidgetState extends State<AddFaultyItemWidget> {
               const SizedBox(
                 height: 18,
               ),
-              SizedBox(
-                width: double.infinity,
-                child: buildDropdown(
-                  value: category_id,
-                  items: categories.map((category) {
-                    return DropdownMenuItem(
-                        value: category.id.toString(),
-                        child: Text(category.name));
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      category_id = value!;
-                      fetchProductByCategoryId(int.parse(category_id!));
-                    });
-                  },
-                  hint: "Select Category",
-                ),
+              buildDropdown(
+                value: category_id,
+                items: categories.map((category) {
+                  return DropdownMenuItem(
+                      value: category.id.toString(),
+                      child: Text(category.name));
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    category_id = value!;
+                    fetchProductByCategoryId(int.parse(category_id!));
+                  });
+                },
+                hint: "Select Category",
               ),
               const SizedBox(
                 height: 18,
@@ -108,25 +102,22 @@ class _AddFaultyItemWidgetState extends State<AddFaultyItemWidget> {
               const SizedBox(
                 height: 18,
               ),
-              SizedBox(
-                width: double.infinity,
-                child: buildDropdown(
-                    value: product_id,
-                    items: products.map((product) {
-                      return DropdownMenuItem(
-                          value: product.id.toString(),
-                          child: Text(
-                            product.name,
-                            overflow: TextOverflow.ellipsis,
-                          ));
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        product_id = value!;
-                      });
-                    },
-                    hint: "Select Product"),
-              ),
+              buildDropdown(
+                  value: product_id,
+                  items: products.map((product) {
+                    return DropdownMenuItem(
+                        value: product.id.toString(),
+                        child: Text(
+                          product.name,
+                          overflow: TextOverflow.ellipsis,
+                        ));
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      product_id = value!;
+                    });
+                  },
+                  hint: "Select Product"),
               const SizedBox(
                 height: 18,
               ),
@@ -143,12 +134,11 @@ class _AddFaultyItemWidgetState extends State<AddFaultyItemWidget> {
               SizedBox(
                 width: double.infinity,
                 child: buildFormField(
-                  label: 'Quantity',
-                  controller: quantity,
-                  validator: validateField,
-                  keyboardType: TextInputType.number,
-                  readOnly: false
-                ),
+                    label: 'Quantity',
+                    controller: quantity,
+                    validator: validateField,
+                    keyboardType: TextInputType.number,
+                    readOnly: false),
               ),
               const SizedBox(
                 height: 16,
@@ -166,7 +156,6 @@ class _AddFaultyItemWidgetState extends State<AddFaultyItemWidget> {
                   },
                   child: const Text(
                     'Add Faulty Item',
-                    
                   ),
                 ),
               ),

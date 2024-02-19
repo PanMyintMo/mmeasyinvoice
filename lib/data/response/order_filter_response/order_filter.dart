@@ -1,9 +1,8 @@
 class OrderFilter {
-  final List<OrderData>? data;
+  final List<OrderDatas>? data;
   final int? totalProfit;
   final int? totalSales;
   final String? totalFaultyItem;
-
   final int? totalRevenue;
   final int? shopKeeper;
   final int? totalWareHouseQuantity;
@@ -25,7 +24,7 @@ class OrderFilter {
   factory OrderFilter.fromJson(Map<String, dynamic> json) {
     return OrderFilter(
       data: (json['data'] as List<dynamic>?)
-          ?.map((item) => OrderData.fromJson(item))
+          ?.map((item) => OrderDatas.fromJson(item))
           .toList() ??
           [],
       totalProfit: json['totalProfit'] ?? 0,
@@ -40,7 +39,7 @@ class OrderFilter {
   }
 }
 
-class OrderData {
+class OrderDatas {
   final int order_id;
   final int user_id;
   final int customer_id;
@@ -84,7 +83,7 @@ class OrderData {
   final List<OrderItemDetail>? order_item_detail;
 
 
-  OrderData({
+  OrderDatas({
     required this.company_id,
     required this.company_name,
     required this.basic_cost,
@@ -127,13 +126,13 @@ class OrderData {
     required this.order_item_detail
   });
 
-  factory OrderData.fromJson(Map<String, dynamic> json) {
+  factory OrderDatas.fromJson(Map<String, dynamic> json) {
     var orderItemDetailJson = json['order_item_detail'] as List<dynamic>?;
 
     List<OrderItemDetail> orderItemDetailList = orderItemDetailJson != null
         ? orderItemDetailJson.map((item) => OrderItemDetail.fromJson(item)).toList()
         : [];
-    return OrderData(
+    return OrderDatas(
         order_id: json['order_id'],
         user_id: json['user_id'],
         customer_id: json['customer_id'],
@@ -218,7 +217,6 @@ class OrderItemDetail {
         quantity: json['quantity'] ?? 0,
         updated_at: json['updated_at'] ?? '',
         created_at: json['created_at'] ?? '',
-
         price: json['price'] ?? '',
         name: json['name'] ?? '',
         slug: json['slug'] ?? '',

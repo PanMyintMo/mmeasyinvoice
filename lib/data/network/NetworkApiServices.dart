@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:mmeasyInvoice/data/app_exception.dart';
 import 'package:mmeasyInvoice/data/network/BaseApiServices.dart';
 
-
 class NetworkApiService extends BaseApiService {
   @override
   Future getPostApiResponse(String url, dynamic data) async {
@@ -23,7 +22,7 @@ class NetworkApiService extends BaseApiService {
   @override
   Future getGetApiResponse(String url) async {
     dynamic responseJson;
-   // logger.e('${dio.get(url)}');
+    // logger.e('${dio.get(url)}');
 
     try {
       final response = await dio.get(url).timeout(const Duration(seconds: 10));
@@ -33,6 +32,18 @@ class NetworkApiService extends BaseApiService {
     }
 
     return responseJson;
+  }
+
+  @override
+  Future getPostApiforIdResponse(String url) async {
+    dynamic responseJosn;
+    try {
+      final response = await dio.post(url).timeout(const Duration(seconds: 10));
+      responseJosn = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJosn;
   }
 }
 

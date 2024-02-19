@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:mmeasyInvoice/data/response/company_profile_response.dart';
 import 'package:mmeasyInvoice/data/response/user_role_response.dart';
 
 abstract class FetchingUserState extends Equatable {
@@ -39,6 +40,23 @@ class FetchingUserSuccess extends FetchingUserState {
   @override
   List<Object?> get props => [_userData];
 }
+
+
+
+//company profile
+class CompanyProfile extends FetchingUserState {
+  final CompanyProfileResponse _profileResponse;
+
+  const CompanyProfile(this._profileResponse);
+
+ CompanyProfileResponse get companyProfile => _profileResponse;
+
+  @override
+  List<Object?> get props => [_profileResponse];
+}
+
+
+//failed
 
 class FetchingUserFailed extends FetchingUserState {
   final String error;

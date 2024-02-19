@@ -6,14 +6,9 @@ import 'package:mmeasyInvoice/state/post/cubit/add_country_state.dart';
 import 'package:mmeasyInvoice/ui/widget/add_country_widget.dart';
 import 'package:mmeasyInvoice/util/common/toast_message.dart';
 
-class AddCountryScreen extends StatefulWidget {
+class AddCountryScreen extends StatelessWidget {
   const AddCountryScreen({super.key});
 
-  @override
-  State<AddCountryScreen> createState() => _AddCountryScreenState();
-}
-
-class _AddCountryScreenState extends State<AddCountryScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
